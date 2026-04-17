@@ -4,6 +4,7 @@
 .settings/
 .classpath
 .project
+bin/
 
 ############################
 # Maven build output
@@ -14,7 +15,8 @@ target/
 # Optional scripts
 ############################
 clean_git_repo.bat
-
+.bat
+.gitignore
 ############################
 # OS files
 ############################
