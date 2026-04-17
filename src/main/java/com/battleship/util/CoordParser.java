@@ -8,7 +8,7 @@ public class CoordParser {
         char letter = input.charAt(0);
         int col = letter - 'A';
 
-        int row = Integer.parseInt(input.substring(1));
+        int row = Integer.parseInt(input.substring(1)) - 1;
 
         if (col < 0 || col >= size || row < 0 || row >= size) {
             throw new IllegalArgumentException("Invalid coordinate");
