@@ -56,11 +56,11 @@ public class Board {
 		if (cell.getState() == CellState.SHIP) {
 			cell.setState(CellState.HIT);
 			cell.getShip().hit();
-			return cell.getShip().isSunk() ? "Sunk" : "Hit";
+			return cell.getShip().isSunk() ? "SUNK" : "HIT";
 		}
 
 		cell.setState(CellState.MISS);
-		return "Miss";
+		return "MISS";
 	}
 
 	public boolean allShipsSunk() {
@@ -79,6 +79,13 @@ public class Board {
 		}
 		return false;
 	}
+	
+	public boolean isAlreadyShot(int row, int col) {
+	    CellState state = grid[row][col].getState();
+	    return state == CellState.HIT || state == CellState.MISS;
+	}
+//	TODO uselessMove() --> toglie le celle intorno alla nave affondata
+//	verificare se vada fatto su HardAIPlayer
 	
 	public Map<Integer, Integer> getRemainingShips() {
 	    Map<Integer, Integer> map = new HashMap<>();

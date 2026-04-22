@@ -89,7 +89,8 @@ public class Game {
 	}
 
 	private void printRemainingShips(Player opponent) {
-		System.out.println("\nNavi rimanenti da affondare:");
+		System.out.println(opponent == ai ? "\nYOUR TURN" : "\nOPPONENT'S TURN");
+		System.out.println("Navi rimanenti da affondare:");
 
 		Map<Integer, Integer> ships = opponent.getBoard().getRemainingShips();
 
@@ -110,12 +111,14 @@ public class Game {
 		Player opponent = ai;
 
 		while (true) {
-			System.out.println("\nYour board:");
-			human.getBoard().print(true);
+			if (current == human) {
+				System.out.println("\nYour board:");
+				human.getBoard().print(true);
 
-			System.out.println("\nEnemy board:");
-			ai.getBoard().print(false);
-			
+				System.out.println("\nEnemy board:");
+				ai.getBoard().print(true); // true --> mostra posizioni navi nemiche
+			}
+
 			if (opponent.getBoard().allShipsSunk()) {
 				if (current == human) {
 					System.out.println("🎉 YOU WON!");
@@ -140,12 +143,16 @@ public class Game {
 
 			printRemainingShips(opponent);
 
-			int[] move = current.makeMove();
-			int row = move[0];
-			int col = move[1];
-
-			String result = opponent.getBoard().shoot(row, col);
-			System.out.println(result);
+			int[] move;
+			String result;
+			int row, col;
+			do {
+				move = current.makeMove();
+				row = move[0];
+				col = move[1];
+				result = opponent.getBoard().shoot(row, col);
+				System.out.println("" + ((char) ('A' + col)) + (row + 1) + " => " + result);
+			} while (result.equalsIgnoreCase("Already shot"));
 
 			boolean hit = result.contains("HIT") || result.contains("SUNK");
 
@@ -155,7 +162,7 @@ public class Game {
 			if (current instanceof AIPlayer) {
 				((AIPlayer) current).processResult(move, hit);
 			}
-			
+
 			Player temp = current;
 			current = opponent;
 			opponent = temp;

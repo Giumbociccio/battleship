@@ -13,10 +13,16 @@ public class AIPlayer extends Player {
 
 	@Override
 	public int[] makeMove() {
-		int row = rand.nextInt(board.getSize());
-		int col = rand.nextInt(board.getSize());
-		int[] move = new int[] { row, col };
+		int row, col;
+
+		do {
+		    row = rand.nextInt(board.getSize());
+		    col = rand.nextInt(board.getSize());
+		} while (board.isAlreadyShot(row, col));
+
+		int[] move = new int[]{row, col};
 		moves.add(move);
+
 		return move;
 	}
 
