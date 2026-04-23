@@ -9,7 +9,7 @@ public class Game {
 
 	private final Player human;
 	private final Player ai;
-	private List<Move> history = new ArrayList<>();
+	private static List<Move> history = new ArrayList<>();
 
 	private final GameConfig config;
 
@@ -25,6 +25,10 @@ public class Game {
 
 		setupShips(human);
 		setupShips(ai);
+	}
+
+	public static List<Move> getHistory() {
+		return history;
 	}
 
 	private void setupShips(Player p) {
@@ -116,7 +120,7 @@ public class Game {
 				human.getBoard().print(true);
 
 				System.out.println("\nEnemy board:");
-				ai.getBoard().print(true); // true --> mostra posizioni navi nemiche
+				ai.getBoard().print(true); // true --> DEBUG: mostra navi nemiche
 			}
 
 			if (opponent.getBoard().allShipsSunk()) {
@@ -150,18 +154,23 @@ public class Game {
 				move = current.makeMove();
 				row = move[0];
 				col = move[1];
+				// 1. colpo reale
 				result = opponent.getBoard().shoot(row, col);
 				System.out.println("" + ((char) ('A' + col)) + (row + 1) + " => " + result);
 			} while (result.equalsIgnoreCase("Already shot"));
 
-			boolean hit = result.contains("HIT") || result.contains("SUNK");
+			// 2. controlla se è stato colpito
+			boolean hit = result.equalsIgnoreCase("HIT") || result.equalsIgnoreCase("SUNK");
+			boolean sunk = result.equalsIgnoreCase("SUNK");
 
+			// 3. aggiorna statistiche
 			current.recordShot(hit);
+			
+			// 4. aggiorni lo storico delle mosse
 			history.add(new Move(row, col, hit));
-
-			if (current instanceof AIPlayer) {
-				((AIPlayer) current).processResult(move, hit);
-			}
+			
+			// 5. incrementa la conoscienza del campo nemico
+			current.handleShotResult(move, hit, sunk);
 
 			Player temp = current;
 			current = opponent;

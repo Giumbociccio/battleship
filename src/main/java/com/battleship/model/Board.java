@@ -15,6 +15,10 @@ public class Board {
 				grid[i][j] = new Cell();
 	}
 
+	public Cell[][] getGrid() {
+		return grid;
+	}
+
 	public boolean placeShip(Ship ship, int row, int col, boolean horizontal) {
 		if (horizontal) {
 			if (col + ship.getSize() > size)
@@ -63,8 +67,27 @@ public class Board {
 		return "MISS";
 	}
 
+	@SuppressWarnings("unused")
 	public boolean allShipsSunk() {
-		return ships.stream().allMatch(Ship::isSunk);
+	    int totalShips = ships.size();
+
+	    int sunkShips = 0;
+	    int remainingShips = 0;
+
+	    for (Ship ship : ships) {
+	        if (ship != null) {
+	            if (ship.isSunk()) {
+	                sunkShips++;
+	            } else {
+	                remainingShips++;
+	            }
+	        }
+	    }
+
+	    // 🔥 utile per debug futuro
+	    // System.out.println("Sunk: " + sunkShips + " Remaining: " + remainingShips);
+
+	    return remainingShips == 0;
 	}
 
 	private boolean isNearShip(int row, int col) {
@@ -84,8 +107,6 @@ public class Board {
 	    CellState state = grid[row][col].getState();
 	    return state == CellState.HIT || state == CellState.MISS;
 	}
-//	TODO uselessMove() --> toglie le celle intorno alla nave affondata
-//	verificare se vada fatto su HardAIPlayer
 	
 	public Map<Integer, Integer> getRemainingShips() {
 	    Map<Integer, Integer> map = new HashMap<>();
@@ -180,5 +201,13 @@ public class Board {
 				System.out.println("───┘");
 			}
 		}
+	}
+
+	public void setTrackingState(int row, int col, CellState state) {
+	    grid[row][col].setState(state);
+	}
+	
+	public CellState getState(int row, int col) {
+	    return grid[row][col].getState();
 	}
 }

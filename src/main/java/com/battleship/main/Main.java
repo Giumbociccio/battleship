@@ -57,7 +57,7 @@ public class Main {
 			}
 			boolean manualPlacement = (placementChoice == 2);
 
-			// ================ inizia la configurazione automatica
+			// inizia la configurazione automatica
 			GameConfig config;
 
 			int size = 10;
@@ -67,9 +67,11 @@ public class Main {
 			config = new GameConfig(size, difficulty, manualPlacement);
 
 			Game game = new Game(config);
+			
+			// inizia il gioco
 			game.start();
 
-			// 🔁 PLAY AGAIN
+			// PLAY AGAIN
 			System.out.print("\nVuoi giocare di nuovo? (Y/N): ");
 			String answer = scanner.nextLine().trim().toUpperCase();
 

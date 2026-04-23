@@ -26,4 +26,8 @@ public class Ship {
     public int getSize() {
         return size;
     }
+
+	public List<int[]> getPositions() {
+		return positions;
+	}
 }
