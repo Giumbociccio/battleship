@@ -19,10 +19,8 @@ public class HardAIPlayer extends AIPlayer {
 //    	lastShot = moves.get(moves.size()-1)
 //    	boolean targetingMode = (lastShot == hit && lastShot != sunk);
 		boolean targetingMode = false;
-		int[] move;
-		do {
-			move = targetingMode ? targetMode() : searchMode();
-		} while (board.isAlreadyShot(move[0], move[1]));
+		int[] move = targetingMode ? targetMode() : searchMode();
+		
 		moves.add(move);
 		return move;
 	}
