@@ -18,6 +18,13 @@ public class Board {
 	public Cell[][] getGrid() {
 		return grid;
 	}
+	public Cell getCell(int[] move) {
+		return getCell(move[0], move[1]);
+	}
+
+	public Cell getCell(int row, int col) {
+		return grid[row][col];
+	}
 
 	public boolean placeShip(Ship ship, int row, int col, boolean horizontal) {
 		if (horizontal) {
@@ -106,6 +113,9 @@ public class Board {
 	public boolean isAlreadyShot(int row, int col) {
 	    CellState state = grid[row][col].getState();
 	    return state == CellState.HIT || state == CellState.MISS;
+	}
+	public boolean isAlreadyShot(int[] move) {
+		return isAlreadyShot(move[0], move[1]);
 	}
 	
 	public Map<Integer, Integer> getRemainingShips() {

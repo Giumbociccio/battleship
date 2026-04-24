@@ -1,8 +1,11 @@
 package com.battleship.player;
 
 import com.battleship.model.*;
+import java.util.*;
 
 public class HardAIPlayer extends AIPlayer {
+
+	private List<int[]> targetingMoves = new ArrayList<>();
 
 	public HardAIPlayer(int size) {
 		super(size);
@@ -16,12 +19,58 @@ public class HardAIPlayer extends AIPlayer {
 //  Se ho 2 hit → segui direzione
 //  Se nave affondata → reset
 
-//    	lastShot = moves.get(moves.size()-1)
-//    	boolean targetingMode = (lastShot == hit && lastShot != sunk);
-		boolean targetingMode = false;
-		int[] move = targetingMode ? targetMode() : searchMode();
-		
+//		Collections.reverse(targetingMoves);
+
+//		Cell lastMove = pairToCell(moves.get(0));
+//		CellState lastShotState = lastMove.getState();
+//		boolean lastShotSunk = lastMove.getShip().isSunk();
+//
+//		boolean targetingMode = (lastShotState == CellState.HIT && !lastShotSunk);
+		int[] move;
+		do {
+//			move = targetingMode ? targetMode() : searchMode();
+			move = targetMode();
+		} while (trackingBoard.isAlreadyShot(move));
+
+//		Collections.reverse(targetingMoves);
+
 		moves.add(move);
+		return move;
+	}
+
+//  TODO TARGET MODE:
+	private int[] targetMode() {
+		// controllo quante volte ho colpito la nave
+		int hits = 0;
+		int[] move = searchMode();
+		boolean lastMiss = false;
+		for (int i = 0; i < targetingMoves.size(); i++) {
+			CellState currentState = pairToCell(targetingMoves.get(i)).getState();
+
+			if (currentState == CellState.HIT) {
+				hits++;
+				lastMiss = false;
+			} else if (lastMiss) {
+				break;
+			}
+//  Quando fai 1 HIT:
+//  salva posizione
+//  prova attorno: ↑ ↓ ← →
+			switch (hits) {
+			case 1:
+
+				break;
+//  Quando fai 2 HIT
+//  Hai direzione:
+//  orizzontale → continua dx/sx
+//  verticale → continua su/giù
+			case 2:
+
+				break;
+			default:
+				break;
+			}
+		}
 		return move;
 	}
 
@@ -31,27 +80,17 @@ public class HardAIPlayer extends AIPlayer {
 //  (r + c) % 2 == 0
 		int row, col;
 		do {
-		    row = rand.nextInt(board.getSize());
-		    col = rand.nextInt(board.getSize());
-		} while (trackingBoard.isAlreadyShot(row, col) || (row + col) % 2 != 0);
-	
-		int[] move = new int[]{row, col};
-		moves.add(move);
-	
+			row = rand.nextInt(board.getSize());
+			col = rand.nextInt(board.getSize());
+		} while ((row + col) % 2 != 0);
+
+		int[] move = new int[] { row, col };
 		return move;
 	}
 
-	private int[] targetMode() {
-//  TODO TARGET MODE:
-//  Quando fai HIT:
-//  salva posizione
-//  prova attorno: ↑ ↓ ← →
-//    
-//  Quando fai secondo HIT
-//  Hai direzione:
-//  orizzontale → continua dx/sx
-//  verticale → continua su/giù
-		return super.makeMove();
+	// trasforma moves.get(moves.size()-1) in una Cella
+	private Cell pairToCell(int[] move) {
+		return trackingBoard.getCell(move);
 	}
 
 	@Override
@@ -59,7 +98,7 @@ public class HardAIPlayer extends AIPlayer {
 		super.handleShotResult(move, hit, sunk);
 
 		if (sunk) {
-			markSurroundingsAsMiss(trackingBoard.getGrid()[move[0]][move[1]].getShip());
+			markSurroundingsAsMiss(pairToCell(move).getShip());
 		}
 	}
 
