@@ -220,4 +220,9 @@ public class Board {
 	public CellState getState(int row, int col) {
 	    return grid[row][col].getState();
 	}
+	public CellState getState(int[] move) {
+		int row = move[0];
+		int col = move[1];
+		return getState(row, col);
+	}
 }
