@@ -19,12 +19,6 @@ public class HardAIPlayer extends AIPlayer {
 //  Se ho 2 hit → segui direzione
 //  Se nave affondata → reset
 
-		int hits = 0;
-		for(int[] m : trackingMoves) {
-			hits = (trackingBoard.getState(m) == CellState.MISS) ? hits : hits + 1;
-		}
-//		pulisco la memoria flash
-		if(hits == 0) trackingMoves.clear();
 		int[] move;
 		do {
 			move = trackingMoves.isEmpty() ? searchMode() : targetMode();
@@ -33,7 +27,6 @@ public class HardAIPlayer extends AIPlayer {
 //		Collections.reverse(trackingMoves);
 
 		moves.add(move);
-		trackingMoves.offer(move);
 		return move;
 	}
 
@@ -54,10 +47,7 @@ public class HardAIPlayer extends AIPlayer {
 //  TODO TARGET MODE:
 	private int[] targetMode() {
 		Random rand = new Random();
-		// aggiorno la memoria flash delle hit
-		while (trackingBoard.getState(trackingMoves.peek()) == CellState.MISS) {
-			trackingMoves.poll();
-		}
+		
 		int[] startMove = trackingMoves.peek();
 		int row = startMove[0], col = startMove[1];
 		// lista delle celle già colpite (di una nave)
@@ -119,11 +109,13 @@ public class HardAIPlayer extends AIPlayer {
 	@Override
 	public void handleShotResult(int[] lastMove, boolean hit, boolean sunk) {
 		super.handleShotResult(lastMove, hit, sunk);
-
+		
 		if (sunk) {
 			List<int[]> shipCells = getConnectedHits(lastMove);
 			markSurroundingsAsMiss(shipCells);
 			trackingMoves.clear();
+		} else if (hit) {
+			trackingMoves.offer(lastMove);
 		}
 	}
 
