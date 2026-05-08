@@ -33,6 +33,7 @@ public class Main {
 			System.out.println("\nScegli difficoltà:");
 			System.out.println("1. Easy (default)");
 			System.out.println("2. Hard");
+			System.out.println("3. Impossible");
 			System.out.print("Scelta: ");
 
 			int diffChoice = 1;
@@ -41,8 +42,9 @@ public class Main {
 			} catch (NumberFormatException e) {
 				System.out.println("Inserita modalità di default");
 			}
-			
-			Difficulty difficulty = (diffChoice == 2) ? Difficulty.HARD : Difficulty.EASY;
+
+			Difficulty difficulty = (diffChoice == 1) ? Difficulty.EASY
+					: (diffChoice == 2) ? Difficulty.HARD : Difficulty.IMPOSSIBLE;
 
 			System.out.println("\nScegli sistemazione navi");
 			System.out.println("1. Navi casuali (default)");
@@ -50,7 +52,7 @@ public class Main {
 			System.out.print("Scelta: ");
 
 			int placementChoice = 1;
-			try{
+			try {
 				placementChoice = Integer.parseInt(scanner.nextLine());
 			} catch (NumberFormatException e) {
 				System.out.println("Inserita modalità di default");
@@ -67,7 +69,7 @@ public class Main {
 			config = new GameConfig(size, difficulty, manualPlacement);
 
 			Game game = new Game(config);
-			
+
 			// inizia il gioco
 			game.start();
 

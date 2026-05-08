@@ -17,10 +17,16 @@ public class Game {
 		this.config = config;
 
 		human = new HumanPlayer(config.getSize());
-		if (config.getDifficulty() == Difficulty.EASY) {
+		switch (config.getDifficulty()) {
+		case EASY:
 			ai = new AIPlayer(config.getSize());
-		} else {
+			break;
+		case HARD:
 			ai = new HardAIPlayer(config.getSize());
+			break;
+		default: // case IMPOSSIBLE
+			ai = new HardAIPlayer(config.getSize());
+			break;
 		}
 
 		setupShips(human);
