@@ -25,7 +25,7 @@ public class Game {
 			ai = new HardAIPlayer(config.getSize());
 			break;
 		default: // case IMPOSSIBLE
-			ai = new HardAIPlayer(config.getSize());
+			ai = new ImpossibleAIPlayer(config.getSize());
 			break;
 		}
 
@@ -126,7 +126,7 @@ public class Game {
 				human.getBoard().print(true);
 
 				System.out.println("\nEnemy board:");
-				ai.getBoard().print(true); // true --> DEBUG: mostra navi nemiche
+				ai.getBoard().print(false); // true --> TODO: mostra navi nemiche
 			}
 
 			if (opponent.getBoard().allShipsSunk()) {
