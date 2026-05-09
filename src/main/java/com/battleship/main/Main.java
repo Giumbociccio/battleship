@@ -31,12 +31,12 @@ public class Main {
 			}
 
 			System.out.println("\nScegli difficoltà:");
-			System.out.println("1. Easy (default)");
-			System.out.println("2. Hard");
+			System.out.println("1. Easy");
+			System.out.println("2. Hard (default)");
 			System.out.println("3. Impossible");
 			System.out.print("Scelta: ");
 
-			int diffChoice = 1;
+			int diffChoice = 2;
 			try {
 				diffChoice = Integer.parseInt(scanner.nextLine());
 			} catch (NumberFormatException e) {
