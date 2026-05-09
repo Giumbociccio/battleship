@@ -2,13 +2,15 @@ package com.battleship.player;
 
 import java.util.*;
 
+import com.battleship.game.GameConfig;
+
 public class AIPlayer extends Player {
 	protected final Random rand = new Random();
 	protected List<int[]> moves = new ArrayList<>();
 	protected List<int[]> hits = new ArrayList<>();
 
-	public AIPlayer(int size) {
-		super(size);
+	public AIPlayer(GameConfig config) {
+	    super(config); // passa a Player
 	}
 
 	@Override

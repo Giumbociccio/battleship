@@ -1,5 +1,6 @@
 package com.battleship.player;
 
+import com.battleship.game.GameConfig;
 import com.battleship.model.*;
 import java.util.*;
 
@@ -7,10 +8,10 @@ public class HardAIPlayer extends AIPlayer {
 
 	private Queue<int[]> trackingMoves = new LinkedList<>();
 
-	public HardAIPlayer(int size) {
-		super(size);
+	public HardAIPlayer(GameConfig config) {
+	    super(config);
 	}
-
+	
 	@Override
 	public int[] makeMove() {
 

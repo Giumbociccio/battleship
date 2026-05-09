@@ -18,15 +18,9 @@ public class Game {
 
 		human = new HumanPlayer(config.getSize());
 		switch (config.getDifficulty()) {
-		case EASY:
-			ai = new AIPlayer(config.getSize());
-			break;
-		case HARD:
-			ai = new HardAIPlayer(config.getSize());
-			break;
-		default: // case IMPOSSIBLE
-			ai = new ImpossibleAIPlayer(config.getSize());
-			break;
+		case EASY:    ai = new AIPlayer(config);     break;
+		case HARD:    ai = new HardAIPlayer(config); break;
+		default:      ai = new ImpossibleAIPlayer(config); break;
 		}
 
 		setupShips(human);
@@ -166,8 +160,8 @@ public class Game {
 			} while (result.equalsIgnoreCase("Already shot"));
 
 			// 2. controlla se è stato colpito
-			boolean hit = result.equalsIgnoreCase("HIT") || result.equalsIgnoreCase("SUNK");
-			boolean sunk = result.equalsIgnoreCase("SUNK");
+			boolean hit = result.contains("HIT") || result.contains("SUNK");
+			boolean sunk = result.contains("SUNK");
 
 			// 3. aggiorna statistiche
 			current.recordShot(hit);

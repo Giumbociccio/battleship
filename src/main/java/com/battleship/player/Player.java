@@ -1,5 +1,6 @@
 package com.battleship.player;
 
+import com.battleship.game.GameConfig;
 import com.battleship.model.Board;
 import com.battleship.model.CellState;
 
@@ -9,12 +10,19 @@ public abstract class Player {
 	protected int shots = 0;
 	protected int hits = 0;
 	protected int misses = 0;
+	protected GameConfig config; // null per HumanPlayer, valorizzato per AI
 
+	// Costruttore esistente rimane per HumanPlayer
 	public Player(int size) {
-		board = new Board(size);
-		trackingBoard = new Board(size);
+	    this.board = new Board(size);
+	    this.trackingBoard = new Board(size);
 	}
 
+	// Nuovo costruttore per i player AI che ricevono la config
+	public Player(GameConfig config) {
+	    this(config.getSize()); // riusa il costruttore base
+	    this.config = config;
+	}
 	public Board getBoard() {
 		return board;
 	}
@@ -22,15 +30,17 @@ public abstract class Player {
 	public Board getTrackingBoard() {
 		return trackingBoard;
 	}
+	// Aggiornamento puro del trackingBoard — non fare override di questo
+	public void updateTrackingBoard(int[] move, boolean hit) {
+	    int row = move[0];
+	    int col = move[1];
+	    trackingBoard.setTrackingState(row, col, hit ? CellState.HIT : CellState.MISS);
+	}
+
+	// Logica strategica — le sottoclassi fanno override di questo
+	@SuppressWarnings("unused")
 	public void handleShotResult(int[] move, boolean hit, boolean sunk) {
-		int row = move[0];
-		int col = move[1];
-		
-		if (hit) {
-	        trackingBoard.setTrackingState(row, col, CellState.HIT);
-	    } else {
-	        trackingBoard.setTrackingState(row, col, CellState.MISS);
-	    }
+	    updateTrackingBoard(move, hit); // il padre lo chiama qui, una volta sola
 	}
 
 	public abstract int[] makeMove();
