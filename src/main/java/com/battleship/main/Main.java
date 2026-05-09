@@ -20,7 +20,8 @@ public class Main {
 			System.out.println("=== BATTLESHIP ===");
 			System.out.println("Scegli modalità:");
 			System.out.println("1. Classica: 10x10 (default)");
-			System.out.println("2. Estesa: 26x26");
+			System.out.println("2. Media: 15x15");
+			System.out.println("3. Estesa: 26x26");
 			System.out.print("Scelta (1 o 2): ");
 
 			int choice = 1;
@@ -63,8 +64,8 @@ public class Main {
 			GameConfig config;
 
 			int size = 10;
-			if (choice == 2)
-				size = 26;
+			if (choice == 2) size = 15;
+			if (choice == 3) size = 26;
 
 			config = new GameConfig(size, difficulty, manualPlacement);
 

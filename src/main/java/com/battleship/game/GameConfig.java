@@ -31,7 +31,15 @@ public class GameConfig {
 
 	private int[] setShipSizes() {
 		int[] smallSize = { 5, 4, 3, 2, 2, 1, 1, 1 };
+		int[] mediumSize = { 5, 4, 3, 3, 3, 2, 2, 1, 1, 1 };
 		int[] bigSize = { 5, 4, 4, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1 };
-		return (size == 10) ? smallSize : bigSize;
+
+		if (size == 10) {
+			return smallSize;
+		} else if (size == 15) {
+			return mediumSize;
+		} else {
+			return bigSize;
+		}
 	}
 }
