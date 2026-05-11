@@ -1,9 +1,9 @@
-package com.battleship.game;
+package com.battleship.player;
 
 import java.util.*;
 
+import com.battleship.game.GameConfig;
 import com.battleship.model.CellState;
-import com.battleship.player.HardAIPlayer;
 
 /**
  * ImpossibleAIPlayer — livello di difficoltà massimo.

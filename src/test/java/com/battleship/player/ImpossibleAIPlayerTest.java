@@ -2,7 +2,6 @@ package com.battleship.player;
 
 import com.battleship.game.Difficulty;
 import com.battleship.game.GameConfig;
-import com.battleship.game.ImpossibleAIPlayer;
 import com.battleship.model.Board;
 import com.battleship.model.CellState;
 import org.junit.Before;
